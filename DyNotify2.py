@@ -6,21 +6,18 @@ from flask import Flask, jsonify, request, abort
 from flask_restful import Resource, Api, reqparse
 import os
 
-
 #Initialize API for use
-
 app = Flask(__name__)
 api = Api(app)
 
 #API Key for Authentication
-# This is a key for TESTING PURPOSES ONLY
 keys = ['KEY1FORTEST','KEY2FORTEST']
 
 # create a decorator for flask to wrap the function
 def app_keytest(view_function):
     @wraps(view_function)
     def decorate_function(*args,**kwargs):
-        if request.args.get('APIKey') and request.args.get('APIKey') == 'KEY1FORTEST':
+        if request.args.get('APIKey') in keys:
             return view_function(*args,**kwargs)
         else:
             abort(401)
