@@ -25,7 +25,7 @@ def app_keytest(view_function):
 
 
 # API call for functioning:
-@app.route('/imagecomp/', methods = ['GET'])
+@app.route('/imagecomp/', methods = ['GET', 'POST'])
 @app_keytest
 def imagecomps():
     #static images for testing code:
