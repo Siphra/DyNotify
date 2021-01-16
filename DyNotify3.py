@@ -62,7 +62,7 @@ async def upload_file(api_key: APIKey = Depends(get_api_key), files: List[Upload
         similarity = sum(q.mean) / (len(q.mean) * 255)
         return {'% similarity': 100 * similarity}
     except:
-        raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail="Unable to comply check file types")
+        raise HTTPException(status_code=HTTP_400_BAD_REQUEST, detail="Check file types, two different images required")
 
 # Run the app via uvicorn
 if __name__ == "__main__":
