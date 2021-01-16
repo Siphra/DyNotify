@@ -10,7 +10,7 @@ import os
 app = Flask(__name__)
 api = Api(app)
 
-#API Key for Authentication
+#API Key for Authentication Testing
 keys = ['KEY1FORTEST','KEY2FORTEST']
 
 # create a decorator for flask to wrap the function
@@ -28,36 +28,35 @@ def app_keytest(view_function):
 @app.route('/imagecomp/', methods = ['GET', 'POST'])
 @app_keytest
 def imagecomps():
-    #static images for testing code:
-    image = request.args.get('image')
-    image2 = request.args.get('image2')
-    with open(image, 'rb') as img1, open(image2, 'rb') as img2:
-        file_bin = img1.read()
-        bit_arry = bytearray(file_bin)
-        file_bin2 = img2.read()
-        bit_arry2 = bytearray(file_bin2)
-
-        # compare the file sizes for iteration
-
-    # if os.path.getsize(image) >= os.path.getsize(image2):
-    if len(bit_arry) >= len(bit_arry2):
-        max = len(bit_arry)
-        min = len(bit_arry2)
-    else:
-        min = len(bit_arry)
-        max = len(bit_arry2)
-
-    counter = 0  # initialize counter for iteration
-    bit_arry_bool = []  # initialize empty bit array for boolean construct
-    while counter < min:
-        if bit_arry[counter] == bit_arry2[counter]:
-            bit_arry_bool.append(1)
+    try:
+        image = request.args.get('image')
+        image2 = request.args.get('image2')
+        with open(image, 'rb') as img1, open(image2, 'rb') as img2:
+            file_bin = img1.read()
+            bit_arry = bytearray(file_bin)
+            file_bin2 = img2.read()
+            bit_arry2 = bytearray(file_bin2)
+        if len(bit_arry) >= len(bit_arry2):
+            max = len(bit_arry)
+            min = len(bit_arry2)
         else:
-            bit_arry_bool.append(0)
-        counter += 1
+            min = len(bit_arry)
+            max = len(bit_arry2)
 
-    similarity = 100 * sum(bit_arry_bool) / max
-    return jsonify({'% Similar' : similarity })
+        counter = 0  # initialize counter for iteration
+        bit_arry_bool = []  # initialize empty bit array for boolean construct
+        while counter < min:
+            if bit_arry[counter] == bit_arry2[counter]:
+                bit_arry_bool.append(1)
+            else:
+                bit_arry_bool.append(0)
+            counter += 1
+
+        similarity = 100 * sum(bit_arry_bool) / max
+        return jsonify({'% Similar' : similarity })
+    except:
+        print('Format Error or Other Error Please put 2 valid images, and API Key')
+        abort(400)
 
 if __name__ == '__main__':
     app.run()
