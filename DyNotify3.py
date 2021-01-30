@@ -7,7 +7,7 @@ from typing import List
 import uvicorn
 from PIL import Image, ImageChops, ImageStat
 from starlette.status import HTTP_403_FORBIDDEN, HTTP_400_BAD_REQUEST
-import io
+
 
 # Hardcoded API key and key name
 API_KEY = 'kmrhn74zgzcq4nqb'
